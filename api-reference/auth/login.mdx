@@ -1,0 +1,45 @@
+---
+title: 'Login'
+description: 'Use the following endpoint to obtain an access token required for authenticating subsequent API requests to the DDN API.'
+openapi: 'POST /gateway/auth/login'
+---
+
+## Endpoint
+
+```http
+POST https://api.discountdrugnetwork.com/gateway/auth/login?groupId=GROUPID
+```
+
+## Input Parameters
+
+<ResponseField name="groupId" type="string" required>
+    Your group ID number.
+
+    Example: `12345`
+</ResponseField>
+
+## Response Fields
+
+<ResponseField name="accessToken" type="string" required>
+    The JWT Authentication token to use in the Authorization Bearer header for future requests.
+
+    Example: `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...`
+</ResponseField>
+
+<ResponseField name="refreshToken" type="string" required>
+    The token to refresh the authentication session.
+
+    Example: `8joiu...`
+</ResponseField>
+
+<ResponseField name="expiresIn" type="int" required>
+    Number of seconds before the token expires.
+
+    Example: `3600`
+</ResponseField>
+
+<ResponseField name="tokenType" type="string" required>
+    Identifies the type of token. Typically, this will be "Bearer".
+
+    Example: `Bearer`
+</ResponseField>

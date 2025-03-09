@@ -1,0 +1,69 @@
+---
+title: 'Embed Instructions'
+description: 'This section covers using the iFrame on your website.'
+---
+# Discount Drug Network Embed Instructions
+
+Thank you for using Discount Drug Network Plus! Here are the instructions and things to note while setting it up.
+
+## Head Section
+
+Please insert this CSS code before the closing `</head>` tag.
+
+```html
+<style>
+   #iframe__container {
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     width: 100%;
+     margin-top: 4rem;
+   }
+   #ddn-iframe {
+     padding: 0;
+     width: 100%;
+     border: 0px solid #E9E9E9;
+     box-sizing: content-box;
+     overflow: hidden;
+     min-height:450px;
+     min-width:375px;
+   }
+</style>
+```
+
+## Widget HTML
+
+Next, please paste this code wherever you want your DDN+ widget to display.
+
+```html
+<div id="iframe__container">
+   <iframe id="ddn-iframe" src="https://discountdrugnetwork.com/?iframe=true" scrolling="no"></iframe>
+</div>
+```
+
+## JavaScript
+
+Place this code right before the closing `</body>` tag at the bottom of your code. Additionally, replace `"YOUR-GROUP-ID"` with your respective group ID.
+
+> **Note**: Do not wrap this in jQuery. Please make sure that this code is inline with `<script></script>` tags. Do not put this JavaScript in another file as it may not work as intended.
+
+```javascript
+<script>
+  const messageHandler = (e) => {
+    if (e.origin === window.location.origin || !e.data) {
+      return;
+    }
+    if (e.data) {
+      let frame = document.getElementById('ddn-iframe');
+      if (frame) {
+        frame.style.height = `${e.data}px`;
+        frame.contentWindow.postMessage({
+          iframe: true,
+          groupId: "YOUR-GROUP-ID"
+        }, '*');
+      }
+    }
+  }
+  window.addEventListener('message', messageHandler);
+</script>
+```

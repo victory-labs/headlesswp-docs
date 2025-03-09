@@ -1,0 +1,640 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Discount Drug Network API",
+    "version": "1.0.0",
+    "description": "API for authentication, drug searches, discount information, and related data."
+  },
+  "servers": [
+    {
+      "url": "https://api.discountdrugnetwork.com",
+      "description": "Production server"
+    }
+  ],
+  "paths": {
+    "/gateway/auth/login": {
+      "post": {
+        "summary": "Login",
+        "description": "Obtain an access token required for authenticating subsequent API requests to the DDN API.",
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Your group ID number. Example: 12345"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful login",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "accessToken": {
+                      "type": "string",
+                      "description": "The JWT Authentication token to use in the Authorization Bearer header for future requests.",
+                      "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                    },
+                    "refreshToken": {
+                      "type": "string",
+                      "description": "The token to refresh the authentication session.",
+                      "example": "8joiu..."
+                    },
+                    "expiresIn": {
+                      "type": "integer",
+                      "description": "Number of seconds before the token expires.",
+                      "example": 3600
+                    },
+                    "tokenType": {
+                      "type": "string",
+                      "description": "Identifies the type of token. Typically, this will be 'Bearer'.",
+                      "example": "Bearer"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - invalid parameters."
+          },
+          "401": {
+            "description": "Unauthorized - invalid group ID or credentials."
+          }
+        }
+      }
+    },
+    "/gateway/auth/refresh": {
+      "post": {
+        "summary": "Refresh Token",
+        "description": "Use this endpoint to refresh the authentication token for continued access to the DDN API.",
+        "requestBody": {
+          "description": "Provide the refresh token to renew the authentication session.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "refreshToken": {
+                    "type": "string",
+                    "description": "The refresh token obtained during login.",
+                    "example": "8joiu..."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Token refreshed successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "accessToken": {
+                      "type": "string",
+                      "description": "The renewed JWT Authentication token to use in the Authorization Bearer header for future requests.",
+                      "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                    },
+                    "refreshToken": {
+                      "type": "string",
+                      "description": "The new refresh token for extending the authentication session.",
+                      "example": "9klmn..."
+                    },
+                    "expiresIn": {
+                      "type": "integer",
+                      "description": "Number of seconds before the new token expires.",
+                      "example": 3600
+                    },
+                    "tokenType": {
+                      "type": "string",
+                      "description": "Identifies the type of token. Typically, this will be 'Bearer'.",
+                      "example": "Bearer"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - invalid refresh token."
+          },
+          "401": {
+            "description": "Unauthorized - expired or invalid refresh token."
+          }
+        }
+      }
+    },
+    "/gateway/Drug/FindDrugs": {
+      "get": {
+        "summary": "Find Drugs",
+        "description": "Retrieve drug information, forms, strengths, quantities, and pricing using various filters.",
+        "parameters": [
+          {
+            "name": "groupID",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Group Identifier for authentication."
+          },
+          {
+            "name": "Address1",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Address for the search location."
+          },
+          {
+            "name": "BrandIndicator",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Brand or generic indicator."
+          },
+          {
+            "name": "City",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "City of the search location."
+          },
+          {
+            "name": "DrugName",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Name of the drug to search."
+          },
+          {
+            "name": "GSN",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "GCN Sequence Number to filter drugs."
+          },
+          {
+            "name": "NDC",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "National Drug Code of the drug."
+          },
+          {
+            "name": "IncludeDrugInfo",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            },
+            "description": "Whether to include detailed drug info in the response."
+          },
+          {
+            "name": "Lat",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "format": "double"
+            },
+            "description": "Latitude of the search location."
+          },
+          {
+            "name": "Long",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "format": "double"
+            },
+            "description": "Longitude of the search location."
+          },
+          {
+            "name": "NCPDP_NPI",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Pharmacy identifier."
+          },
+          {
+            "name": "NumPharm",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Number of pharmacies to return."
+          },
+          {
+            "name": "PriceOnly",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            },
+            "description": "If true, returns only price information."
+          },
+          {
+            "name": "Qty",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "format": "double"
+            },
+            "description": "Quantity of the drug."
+          },
+          {
+            "name": "ReferencedBN",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Referenced brand name."
+          },
+          {
+            "name": "State",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "State of the search location."
+          },
+          {
+            "name": "UC",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "format": "double"
+            },
+            "description": "Usual and Customary value."
+          },
+          {
+            "name": "UseUC",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            },
+            "description": "Whether to use the Usual and Customary value in pricing calculations."
+          },
+          {
+            "name": "Zip",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Zip code of the search location."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved drug and pharmacy details.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Drugs": {
+                      "type": "array",
+                      "description": "Array of LocatedDrugs matching the FindDrugs request."
+                    },
+                    "Forms": {
+                      "type": "array",
+                      "description": "Array of LocatedDrugForms matching the FindDrugs request."
+                    },
+                    "Names": {
+                      "type": "array",
+                      "description": "Array of LocatedDrugNames matching the FindDrugs request."
+                    },
+                    "Quantities": {
+                      "type": "array",
+                      "description": "Array of LocatedDrugQuantities matching the FindDrugs request."
+                    },
+                    "Strengths": {
+                      "type": "array",
+                      "description": "Array of LocatedDrugStrengths matching the FindDrugs request."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - invalid input parameters."
+          },
+          "404": {
+            "description": "Not found - no drugs matching the criteria."
+          }
+        }
+      }
+    },
+    "/api/Drug/Autocomplete": {
+      "get": {
+        "summary": "Autocomplete",
+        "description": "Retrieve drug name suggestions for search autocomplete functionality.",
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Group Identifier. Example: 12345"
+          },
+          {
+            "name": "prefixText",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 3
+            },
+            "description": "Drug search text. Recommended to send at least 3 characters. Example: asp"
+          },
+          {
+            "name": "count",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 20
+            },
+            "description": "Number of drug names to return. Optional, maximum is 20. Example: 10"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved drug name suggestions.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "drugNames": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "description": "Drug name suggestion."
+                      },
+                      "description": "Array of drug name suggestions matching the autocomplete request."
+                    }
+                  },
+                  "example": {
+                    "drugNames": [
+                      "Aspirin",
+                      "Aspergum",
+                      "Aspart"
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - invalid input parameters."
+          },
+          "404": {
+            "description": "Not found - no suggestions for the provided prefix text."
+          }
+        }
+      }
+    },
+    "/api/Drug/DiscountInfo": {
+      "get": {
+        "summary": "Get Discount Info",
+        "description": "Retrieve information about available discounts for a specified group.",
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Reference back to the requested group ID."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved discount information.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "groupId": {
+                      "type": "string",
+                      "description": "Reference to the requested group ID."
+                    },
+                    "cardholderID": {
+                      "type": "string",
+                      "description": "The new cardholder identifier."
+                    },
+                    "rxBIN": {
+                      "type": "string",
+                      "description": "The BIN assigned to the group ID."
+                    },
+                    "rxPCN": {
+                      "type": "string",
+                      "description": "The PCN assigned to the group ID."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - invalid group ID."
+          },
+          "404": {
+            "description": "Not found - no discount information available for the provided group ID."
+          }
+        }
+      }
+    },
+    "/api/Drug/DrugFormStrength": {
+      "get": {
+        "summary": "Drug Form Strength",
+        "description": "Provides information on LocatedDrugNames, LocatedDrugForms, LocatedDrugStrengths, and LocatedDrugQuantities for a specific drug identified by GSN (FormStrengthQuantity combination identifier).",
+        "parameters": [
+          {
+            "name": "GSN",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "GCN Sequence Number (Required)."
+          },
+          {
+            "name": "groupId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Group Identifier (Required). Example: 12345"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved drug form strength details.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "drugName": {
+                      "type": "string",
+                      "description": "Drug name."
+                    },
+                    "brandGeneric": {
+                      "type": "string",
+                      "description": "'B' for Brand, 'G' for Generic, 'A' for Brand or Generic."
+                    },
+                    "Forms": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "Form": {
+                            "type": "string",
+                            "description": "Drug form (e.g., 'Tablet')."
+                          },
+                          "GSN": {
+                            "type": "string",
+                            "description": "GCN Sequence Number."
+                          },
+                          "Ranking": {
+                            "type": "integer",
+                            "description": "Ranking of the most commonly used drug form."
+                          },
+                          "isDiscontinued": {
+                            "type": "boolean",
+                            "description": "Indicates if the drug form is discontinued."
+                          },
+                          "LN": {
+                            "type": "string",
+                            "description": "Drug label name."
+                          },
+                          "commonQty": {
+                            "type": "number",
+                            "description": "Most common quantity dispensed."
+                          },
+                          "discontinuedDate": {
+                            "type": "string",
+                            "format": "date-time",
+                            "description": "Date when the drug form was discontinued."
+                          },
+                          "IsSelected": {
+                            "type": "boolean",
+                            "description": "Indicates if this value is the current filter for returned datasets."
+                          }
+                        }
+                      }
+                    },
+                    "Strengths": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "Strength": {
+                            "type": "string",
+                            "description": "Drug strength."
+                          },
+                          "GSN": {
+                            "type": "string",
+                            "description": "GCN Sequence Number."
+                          },
+                          "Ranking": {
+                            "type": "integer",
+                            "description": "Ranking of the most commonly used strength."
+                          },
+                          "LN": {
+                            "type": "string",
+                            "description": "Drug label name."
+                          },
+                          "CommonQty": {
+                            "type": "number",
+                            "description": "Most common quantity dispensed."
+                          },
+                          "IsSelected": {
+                            "type": "boolean",
+                            "description": "Indicates if this value is the current filter for returned datasets."
+                          }
+                        }
+                      }
+                    },
+                    "Quantities": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "Quantity": {
+                            "type": "number",
+                            "description": "Drug quantity."
+                          },
+                          "QuantityLabel": {
+                            "type": "string",
+                            "description": "Label for quantity (e.g., mL, units, grams)."
+                          },
+                          "GSN": {
+                            "type": "string",
+                            "description": "GCN Sequence Number."
+                          },
+                          "Ranking": {
+                            "type": "integer",
+                            "description": "Ranking of the most commonly used quantity."
+                          },
+                          "IsSelected": {
+                            "type": "boolean",
+                            "description": "Indicates if this value is the current filter for returned datasets."
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - invalid GSN or groupId."
+          },
+          "404": {
+            "description": "Not found - no data for the provided GSN."
+          }
+        }
+      }
+    }
+  }
+}

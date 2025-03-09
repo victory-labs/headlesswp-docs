@@ -1,0 +1,35 @@
+---
+title: 'Get Discount Info'
+description: 'Use this endpoint to retrieve information about available discounts for a specified group.'
+openapi: 'GET /api/Drug/DiscountInfo'
+---
+
+## Endpoint
+
+```http
+GET https://api.discountdrugnetwork.com/api/Drug/DiscountInfo
+```
+
+## Input Parameters
+
+<ResponseField name="groupId" type="string" required>
+    Reference back to the requested group ID.
+</ResponseField>
+
+## Response
+
+<ResponseField name="groupId" type="string">
+    Reference to the requested group ID.
+</ResponseField>
+
+<ResponseField name="cardholderID" type="string">
+    The new cardholder identifier.
+</ResponseField>
+
+<ResponseField name="rxBIN" type="string">
+    The BIN assigned to the group ID.
+</ResponseField>
+
+<ResponseField name="rxPCN" type="string">
+    The PCN assigned to the group ID.
+</ResponseField>
