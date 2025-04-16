@@ -1,0 +1,95 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "mint",
+  "name": "HeadlessWP",
+  "colors": {
+    "primary": "#005DAA",
+    "light": "#E5EFF7",
+    "dark": "#005DAA"
+  },
+  "favicon": "/logo/pumpkin.webp",
+  "navigation": {
+    "anchors": [
+      {
+        "anchor": "Documentation",
+        "icon": "book-open",
+        "groups": [
+          {
+            "group": "Documentation",
+            "pages": ["documentation/introduction"]
+          }
+        ]
+      },
+      {
+        "anchor": "API Reference",
+        "icon": "terminal",
+        "groups": [
+          {
+            "group": "Get Started",
+            "pages": [
+              "api-reference/introduction",
+              "api-reference/authentication"
+            ]
+          },
+          {
+            "group": "Posts",
+            "pages": ["api-reference/posts/get-posts"]
+          },
+          {
+            "group": "Pages",
+            "pages": [
+              "api-reference/search/find-drugs",
+              "api-reference/search/discount-info",
+              "api-reference/search/autocomplete",
+              "api-reference/search/drug-form-strength"
+            ]
+          }
+        ]
+      },
+      {
+        "anchor": "Report Issues",
+        "href": "https://github.com/victory-labs/headlesswp/issues",
+        "icon": "bug"
+      },
+      {
+        "anchor": "Roadmap",
+        "href": "https://headlesswp.com/",
+        "icon": "map"
+      }
+    ]
+  },
+  "logo": {
+    "light": "/logo/pumpkin.webp",
+    "dark": "/logo/pumpkin.webp"
+  },
+  "api": {
+    "mdx": {
+      "auth": {
+        "method": "key",
+        "name": "x-ddn-client-key"
+      }
+    }
+  },
+  "appearance": {
+    "default": "light",
+    "strict": false
+  },
+  "navbar": {
+    "links": [
+      {
+        "label": "Support",
+        "href": "https://headlesswp.com/support"
+      }
+    ],
+    "primary": {
+      "type": "button",
+      "label": "HeadlessWP.com",
+      "href": "https://headlesswp.com"
+    }
+  },
+  "footer": {
+    "socials": {
+      "github": "https://github.com/victory-labs/headlesswp"
+    }
+  }
+}

@@ -1,16 +1,17 @@
 ---
-title: 'Authentication'
-description: 'This section covers authenticating with Discount Drug Network (DDN) API endpoints.'
+title: "Authentication"
+description: "This section covers authenticating with the HeadlessWP plugin."
 ---
 
 ## Authenticating with an API key
-To authenticate, include an `Authorization` header in your request with the `x-ddn-client-key` token format, where `ddn_your-api-key-here` is the API key provided for your account.
+
+To authenticate, include an `Authorization` header in your request with the `X-WP-API-Key` token format, where `your-api-key-here` is the API key provided for your account.
 
 ```
-Authorization: x-ddn-client-key ddn_your-api-key-here
+Authorization: X-WP-API-Key your-api-key-here
 ```
 
-Make sure to replace `ddn_your-api-key-here` with your actual API key.
+Make sure to replace `your-api-key-here` with your actual API key.
 
 ## Creating and refreshing session
 

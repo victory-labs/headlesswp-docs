@@ -1,30 +1,30 @@
 ---
-title: 'Introduction'
-description: 'This section covers key concepts, authentication strategies, and standard response codes needed to interact with the Discount Drug Network (DDN) API effectively.'
+title: "Introduction"
+description: "This section covers key concepts, authentication strategies, and standard response codes needed to interact with the WordPress REST API effectively."
 ---
 
 ## Base URL
 
-The DDN API adheres to REST principles and enforces HTTPS for all requests to ensure data security and integrity. HTTP requests are not supported.
+The WordPress API adheres to REST principles and enforces HTTPS for all requests to ensure data security and integrity. HTTP requests are not supported.
 
 All requests are made to the following base URL:
 
 ```
-https://api.discountdrugnetwork.com
+http://yoursite.com/wp-json/wp/v2
 ```
 
 ## Response Codes
 
-The DDN API uses standard HTTP codes to indicate request outcomes:
+The API uses standard HTTP codes to indicate request outcomes:
 
-| Status | Description                                             |
-|--------|---------------------------------------------------------|
-| 200    | Successful request.                                     |
+| Status | Description                                                   |
+| ------ | ------------------------------------------------------------- |
+| 200    | Successful request.                                           |
 | 400    | Parameter validation error—check that parameters are correct. |
-| 401    | Missing or expired API key.                             |
-| 403    | Invalid or unauthorized API key.                        |
-| 404    | Resource not found.                                     |
-| 429    | Rate limit exceeded.                                    |
-| 5xx    | Server error on DDN's side.                             |
+| 401    | Missing or expired API key.                                   |
+| 403    | Invalid or unauthorized API key.                              |
+| 404    | Resource not found.                                           |
+| 429    | Rate limit exceeded.                                          |
+| 5xx    | Server error on your WordPress site.                          |
 
 Refer to the Error Codes section for detailed error explanations and troubleshooting.
