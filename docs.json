@@ -47,13 +47,10 @@
             "pages": ["api-reference/posts/get-posts"]
           },
           {
-            "group": "Pages",
-            "pages": [
-              "api-reference/search/find-drugs",
-              "api-reference/search/discount-info",
-              "api-reference/search/autocomplete",
-              "api-reference/search/drug-form-strength"
-            ]
+            "group": "Endpoints",
+            "openapi": {
+              "source": "/openapi.json"
+            }
           }
         ]
       },
@@ -77,7 +74,7 @@
     "mdx": {
       "auth": {
         "method": "key",
-        "name": "x-ddn-client-key"
+        "name": "x-wp-api-key"
       }
     }
   },
