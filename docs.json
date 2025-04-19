@@ -17,6 +17,17 @@
           {
             "group": "Documentation",
             "pages": ["documentation/introduction"]
+          },
+          {
+            "group": "Configuration",
+            "pages": [
+              "documentation/configuration",
+              "documentation/dashboard",
+              "documentation/open-api",
+              "documentation/api-keys",
+              "documentation/security",
+              "documentation/settings"
+            ]
           }
         ]
       },
